@@ -1,0 +1,59 @@
+# 1.le nombre total d'objets Album contenus dans la base
+# Album.count
+puts "Nombre total d'albums: #{Album.count}"
+
+# 2. l'auteur de la chanson "White Room"
+# Track.find_by(title: "White Room").artist
+puts "Auteur du son 'White Room': #{Track.find_by(title: "White Room").artist}"
+# 3. chanson dure exactement 188133 milliseconds
+# Track.where(duration: 188133).first
+puts "Chanson avec une durée exact de 188133 milliseconds: #{Track.where(duration: 188133).pluck(:title)}"
+
+# groupe qui a sorti l'album "Use Your Illusion II"
+# Album.find_by(title: "Use Your Illusion II").artist
+puts "Groupe qui a sorti l'album 'Use Your Illusion II': #{Album.find_by(title: "Use Your Illusion II").artist}"
+
+# albums dont le titre contient "Great"
+# Album.where("title LIKE ?", "%Great%").pluck(:title)
+puts "Albums dont le titre contient 'Great': #{Album.where("title LIKE ?", "%Great%").pluck(:title)}"
+puts "Nombre : #{Album.where("title LIKE ?", "%Great%").count}"
+
+# Supprime tous les albums dont le nom contient "music"
+# Album.where("title LIKE ?", "%music%").destroy_all
+
+# albums écrits par AC/DC
+# Album.where(artist: "AC/DC").pluck(:title)
+puts "Albums écrits par AC/DC: #{Album.where(artist: "AC/DC").pluck(:title)}"
+
+# Nombre de chansons durent exactement 158589 millisecondes
+puts "Nombre : #{Track.where(duration: 158589).count}"
+
+# puts en console tous les titres de AC/DC.
+Track.where(artist: "AC/DC").each do |album|
+  puts album.title
+end
+
+puts "Titres de AC/DC: #{Track.where(artist: "AC/DC").pluck(:title)}"
+
+Track.where(artist: "AC/DC").pluck(:title).each do |title|
+  puts title
+end
+
+# puts en console tous les titres de l'album "Let There Be Rock"
+Track.where(album: "Let There Be Rock").pluck(:title)
+Track.where(album: "Let There Be Rock").pluck(:title).each do |track|
+  puts track
+end
+
+# le prix total de cet album ainsi que sa durée totale
+# Track.where(album: "Let There Be Rock").pluck(:price).sum # prix
+# Track.where(album: "Let There Be Rock").pluck(:duration).sum # durée
+puts "Prix total de l'album 'Let There Be Rock': #{Track.where(album: "Let There Be Rock").pluck(:price).sum} $"
+puts "Durée totale de l'album 'Let There Be Rock': #{Track.where(album: "Let There Be Rock").pluck(:duration).sum} millisecondes"
+
+# le coût de l'intégralité de la discographie de "Deep Purple"
+# Track.where(artist: "Deep Purple").pluck(:price).sum
+puts "Coût de l'intégralité de la discographie de 'Deep Purple': #{Track.where(artist: "Deep Purple").pluck(:price).sum} $"
+
+# modification de tous les titres de "Eric Clapton" afin qu'ils soient affichés avec "Britney Spears" en artist
+# Track.where(artist: "Eric Clapton").update_all(artist: "Britney Spears")
